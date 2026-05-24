@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
-import { createLinkService, getLinksService, redirectLinkService } from './links.service.js'
+import { createLinkService, getLinksService, redirectLinkService, getLinkAnalyticsService } from './links.service.js'
 
 const createLinkSchema = z.object({
   url: z.string().url(),
@@ -26,8 +26,18 @@ export async function getLinksController(req: FastifyRequest, reply: FastifyRepl
 
 export async function redirectController(req: FastifyRequest, reply: FastifyReply) {
   const { slug } = req.params as { slug: string }
+  const userAgent = req.headers['user-agent']
 
-  const url = await redirectLinkService(slug)
+  const url = await redirectLinkService(slug, userAgent)
 
   return reply.redirect(url)
+}
+
+export async function getLinkAnalyticsController(req: FastifyRequest, reply: FastifyReply) {
+  const { id } = req.params as { id: string }
+  const userId = (req as any).userId
+
+  const analytics = await getLinkAnalyticsService(id, userId)
+
+  return reply.status(200).send(analytics)
 }
