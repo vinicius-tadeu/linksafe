@@ -5,7 +5,7 @@ import { linksRoutes } from './modules/links/links.routes.js'
 import { errorHandler } from './shared/middleware/error.middleware.js'
 import { env } from './config/env.js'
 
-const app = Fastify({ logger: true })
+export const app = Fastify({ logger: false })
 
 app.setErrorHandler(errorHandler)
 
@@ -24,6 +24,8 @@ app.get('/health', async () => {
   return { status: 'ok' }
 })
 
-app.listen({ port: env.PORT }, (err) => {
-  if (err) throw err
-})
+if (process.env.NODE_ENV !== 'test') {
+  app.listen({ port: env.PORT }, (err) => {
+    if (err) throw err
+  })
+}
