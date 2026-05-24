@@ -1,8 +1,15 @@
 # 🔐 LinkSafe
 
+![Node.js](https://img.shields.io/badge/Node.js-20+-green)
+![TypeScript](https://img.shields.io/badge/TypeScript-5+-blue)
+![Fastify](https://img.shields.io/badge/Fastify-5+-black)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue)
+![Docker](https://img.shields.io/badge/Docker-ready-blue)
+![Tests](https://img.shields.io/badge/Tests-10%20passing-brightgreen)
+
 Encurtador de URLs com analytics e segurança, construído com Node.js, Fastify e TypeScript.
 
-## Tecnologias
+## 🚀 Tecnologias
 
 - **Fastify** — framework web rápido e eficiente
 - **TypeScript** — tipagem estática
@@ -10,18 +17,22 @@ Encurtador de URLs com analytics e segurança, construído com Node.js, Fastify 
 - **Prisma ORM** — acesso ao banco com type-safety
 - **JWT** — autenticação stateless
 - **bcrypt** — criptografia de senhas
+- **Zod** — validação e tipagem de variáveis de ambiente e dados
 - **Docker** — ambiente de desenvolvimento isolado
-- **Zod** — validação de dados
+- **Vitest** — testes automatizados
 
-## Funcionalidades
+## 📋 Funcionalidades
 
 - Cadastro e login de usuários com JWT
 - Criação de links encurtados com slug automático ou personalizado
 - Redirecionamento com registro de cliques
 - Analytics por link (total de cliques, dispositivo, navegador)
+- Rate limiting por IP (100 req/min)
+- Validação de variáveis de ambiente na inicialização
 - Tratamento de erros padronizado
+- 10 testes automatizados
 
-## Como rodar localmente
+## 🛠️ Como rodar localmente
 
 ### Pré-requisitos
 - Node.js 20+
@@ -31,7 +42,7 @@ Encurtador de URLs com analytics e segurança, construído com Node.js, Fastify 
 
 ```bash
 # Clone o repositório
-git clone https://github.com/seu-usuario/linksafe.git
+git clone https://github.com/vinicius-tadeu/linksafe.git
 cd linksafe
 
 # Instale as dependências
@@ -60,7 +71,7 @@ DATABASE_URL="postgresql://user:password@localhost:5432/linksafe?schema=public"
 JWT_SECRET="sua-chave-secreta"
 ```
 
-## Rotas
+## 📡 Rotas
 
 ### Auth
 | Método | Rota | Descrição |
@@ -76,7 +87,7 @@ JWT_SECRET="sua-chave-secreta"
 | GET | `/links/:id/analytics` | Analytics do link | ✅ |
 | GET | `/:slug` | Redirecionar para URL | ❌ |
 
-## Exemplo de uso
+## 📊 Exemplo de uso
 
 ### Criar um link
 ```bash
@@ -97,4 +108,26 @@ curl -X POST http://localhost:3000/links \
   "createdAt": "2026-05-24T16:15:19.289Z",
   "userId": "cmpjywlgf0000zwomomiyqar3"
 }
+```
+
+### Analytics
+```bash
+curl http://localhost:3000/links/SEU_ID/analytics \
+  -H "Authorization: Bearer SEU_TOKEN"
+```
+
+### Resposta
+```json
+{
+  "total": 2,
+  "byDevice": { "desktop": 2 },
+  "byBrowser": { "Firefox": 1, "Chrome": 1 },
+  "clicks": [...]
+}
+```
+
+## 🧪 Testes
+
+```bash
+npm test
 ```
