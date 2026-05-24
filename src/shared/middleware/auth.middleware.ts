@@ -1,7 +1,8 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import jwt from 'jsonwebtoken'
+import { env } from '../../config/env.js'
 
-const JWT_SECRET = process.env.JWT_SECRET ?? 'secret'
+const JWT_SECRET = env.JWT_SECRET ?? 'secret'
 
 export async function authMiddleware(req: FastifyRequest, reply: FastifyReply) {
   const authHeader = req.headers.authorization

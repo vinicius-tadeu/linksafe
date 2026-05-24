@@ -3,6 +3,7 @@ import rateLimit from '@fastify/rate-limit'
 import { authRoutes } from './modules/auth/auth.routes.js'
 import { linksRoutes } from './modules/links/links.routes.js'
 import { errorHandler } from './shared/middleware/error.middleware.js'
+import { env } from './config/env.js'
 
 const app = Fastify({ logger: true })
 
@@ -23,6 +24,6 @@ app.get('/health', async () => {
   return { status: 'ok' }
 })
 
-app.listen({ port: 3000 }, (err) => {
+app.listen({ port: env.PORT }, (err) => {
   if (err) throw err
 })
